@@ -1,0 +1,78 @@
+<div class="container py-3">
+  <div class="row d-flex flex-row justify-content-center text-center">
+    <div class="col-md-6">
+      <h3>Create Order</h3>
+      <!-- Customer Select -->
+      <mat-form-field appearance="fill" class="mb-2">
+        <mat-label>Select Customer</mat-label>
+        <mat-select [(ngModel)]="selectedCustomer" name="customer">
+          @for (customer of customers; track customer) {
+            <mat-option [value]="customer">{{customer.name}}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+      
+      
+      <!-- Order Items Table -->
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Price</th>
+            <th scope="col">Qty</th>
+            <th scope="col">Total</th>
+            <th scope="col">Handle</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of orderItems; let i = index">
+            <td>{{ item.name }}</td>
+            <td>{{ item.price }}</td>
+            <td>
+              <button class="btn btn-link" (click)="decrementQuantity(i)">
+                <i class="bi bi-dash-circle"></i>
+              </button>
+              {{ item.quantity }}
+              <button class="btn btn-link" (click)="incrementQuantity(i)">
+                <i class="bi bi-plus-circle"></i>
+              </button>
+            </td>
+            <td>{{ item.price * item.quantity }}</td>
+            <td><button class="btn btn-danger btn-sm" (click)="removeItem(i)">Delete</button></td>
+          </tr>
+          <tr class="table-dark">
+            <td colspan="3">Total</td>
+            <td>{{ calculateTotal() }}</td>
+            <td><button class="btn btn-danger btn-sm" (click)="clearItems()">Delete All</button></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Submit Button -->
+      <button type="button" class="btn btn-primary w-100" (click)="submitOrder()">Submit</button>
+    </div>
+
+    <div class="col-md-6">
+      <h3>List Items</h3>
+      <!-- Available Items Table -->
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Price</th>
+            <th scope="col">Last Stock</th>
+            <th scope="col">Handle</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of items">
+            <td>{{ item.name }}</td>
+            <td>{{ item.price }}</td>
+            <td>{{ item.stock }}</td>
+            <td><button class="btn btn-success btn-sm" (click)="addItem(item.id)">Add</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

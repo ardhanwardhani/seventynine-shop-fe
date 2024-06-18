@@ -1,0 +1,51 @@
+<!-- Main Section -->
+<div class="container py-4">
+    <div class="row">
+        <div class="col-md-12 d-flex justify-content-left">
+            <a href="/customer/create" class="btn btn-primary btn-sm">+ New Customer</a>
+        </div>
+        <div class="col-md-12 py-3">
+            <mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)">
+                <ng-container matColumnDef="code">
+                    <mat-header-cell *matHeaderCellDef> Code </mat-header-cell>
+                    <mat-cell *matCellDef="let customer"> {{ customer.code }} </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="name">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by date"> Name </mat-header-cell>
+                    <mat-cell *matCellDef="let customer"> {{ customer.name }} </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="address">
+                    <mat-header-cell *matHeaderCellDef> Address </mat-header-cell>
+                    <mat-cell *matCellDef="let customer"> {{ customer.address }} </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="phone">
+                    <mat-header-cell *matHeaderCellDef> Phone </mat-header-cell>
+                    <mat-cell *matCellDef="let customer"> {{ customer.phone }} </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="is_active">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by status"> Status </mat-header-cell>
+                    <mat-cell *matCellDef="let customer">
+                        <span [class]="'badge ' + (customer.isActive ? 'bg-success' : 'bg-danger')">
+                            {{ customer.isActive ? 'Active' : 'Not Active' }}
+                          </span>
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="actions">
+                    <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
+                    <mat-cell *matCellDef="let customer">
+                        <button type="button" class="btn btn-primary btn-sm me-2" (click)="showDetails(customer)">Detail</button>
+                        <button type="button" class="btn btn-warning btn-sm me-2" (click)="editCustomer(customer)">Edit</button>
+                        <button type="button" class="btn btn-danger btn-sm" (click)="deleteCustomer(customer)">Delete</button>
+                    </mat-cell>
+                </ng-container>
+                <mat-header-row *matHeaderRowDef="columnsToDisplay"></mat-header-row>
+                <mat-row *matRowDef="let customer; columns: columnsToDisplay"></mat-row>
+            </mat-table>
+            <mat-paginator [length]="100"
+                          [pageSize]="10"
+                          [pageSizeOptions]="[5, 10, 25, 100]"
+                          aria-label="Select page">
+            </mat-paginator>
+        </div>
+    </div>
+</div>
