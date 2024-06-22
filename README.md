@@ -1,27 +1,20 @@
-# PadepokanShop
+# Padepokan Shop
+This is repository for Front-End of Padepokan Shop. This is an POS app where you can manage Customer, Item and Order data.
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.7.
+## Tools:
+- Angular 17
+- Angular Material 17
+- Bootstrap 5
 
-## Development server
+V 1.0
+- CRUD Customer
+- CRUD Item
+- CRUD Order
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
-
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+V 2.0
+- Upload Image Customer Profile
+- Export Report Order
+- Soft Delete Customer & Items
+- List Deactive Customer
+- List Unavailable Items
+- Bug Fixing
