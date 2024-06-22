@@ -1,5 +1,5 @@
 # Padepokan Shop
-This is repository for Front-End of Padepokan Shop. This is an POS app where you can manage Customer, Item and Order data.
+This is repository for Front-End of Padepokan Shop. This is an POS app where you can manage Customer, Item and Order data. I have been created front-end for this project, you can check the repo in this link: https://github.com/ardhanwardhani/seventynine-shop/tree/main
 
 ## Tools:
 - Angular 17
