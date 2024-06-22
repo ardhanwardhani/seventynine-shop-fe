@@ -1,15 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import {MatInputModule} from '@angular/material/input';
-import {MatSelectModule} from '@angular/material/select';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {FormsModule} from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
+
 import { CustomersService } from '../../../services/customers.service';
 import { ItemsService } from '../../../services/items.service';
 import { OrdersService } from '../../../services/orders.service';
 import { Customers } from '../../../models/customers.model';
 import { Items } from '../../../models/items.model';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-orders',
@@ -24,6 +25,7 @@ import { Router } from '@angular/router';
   templateUrl: './create-orders.component.html',
   styleUrls: ['./create-orders.component.css']
 })
+
 export class CreateOrdersComponent implements OnInit {
   customers: Customers[] = [];
   items: Items[] = [];
@@ -43,7 +45,7 @@ export class CreateOrdersComponent implements OnInit {
   }
 
   getCustomers(): void {
-    this.customerService.getAllCustomers().subscribe(response => {
+    this.customerService.getActiveCustomers().subscribe(response => {
       this.customers = response;
     });
   }

@@ -5,6 +5,8 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { MatSort, Sort, MatSortModule } from '@angular/material/sort';
 import { MatButtonModule } from '@angular/material/button';
 import { DatePipe } from '@angular/common';
+import { Router } from '@angular/router';
+import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 
 import { OrdersService } from '../../../services/orders.service';
 import { Orders } from '../../../models/orders.model';
@@ -27,10 +29,14 @@ export class ListOrdersComponent implements AfterViewInit{
   orders: Orders[] = [];
   dataSource = new MatTableDataSource<Orders>([]);
   columnsToDisplay = ['date', 'code', 'customer_name', 'total_quantity', 'total_amount', 'actions'];
-
+  horizontalPosition: MatSnackBarHorizontalPosition = 'center';
+  verticalPosition: MatSnackBarVerticalPosition = 'top';
+  
   constructor(
     private _liveAnnouncer: LiveAnnouncer,
-    private ordersService: OrdersService
+    private ordersService: OrdersService,
+    private router: Router,
+    private snackbar: MatSnackBar,
   ) {}
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -61,15 +67,23 @@ export class ListOrdersComponent implements AfterViewInit{
     }
   }
 
-  showDetails(customer: any) {
-    // Implementasi tampilan detail
+  showDetails(order: any) {
+    this.router.navigateByUrl(`/order/${order.orderId}/detail`);
   }
 
-  editCustomer(customer: any) {
-      // Implementasi edit data pelanggan
+  editOrder(order: any) {
+    this.router.navigateByUrl(`/order/${order.orderId}/edit`);
   }
 
-  deleteCustomer(customer: any) {
-      // Implementasi hapus data pelanggan
+  deleteOrder(order: any) {
+    this.ordersService.deleteOrder(order.orderId).subscribe(response => {
+      this.snackbar.open('Deleted customer successfully', 'Close', {
+        duration: 3000,
+        panelClass:['bg-success', 'text-white'],
+        horizontalPosition: this.horizontalPosition,
+        verticalPosition: this.verticalPosition,
+      });
+      this.loadOrders();
+    });
   }
 }

@@ -2,17 +2,16 @@ import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { MatTableModule, MatTableDataSource } from '@angular/material/table';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { Router } from '@angular/router';
 import { MatSort, Sort, MatSortModule } from '@angular/material/sort';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { CommonModule } from '@angular/common';
-import { Customers } from '../../../models/customers.model';
-import { CustomersService } from '../../../services/customers.service';
+import { Items } from '../../../models/items.model';
+import { ItemsService } from '../../../services/items.service';
 
 
 @Component({
-  selector: 'app-list-customers',
+  selector: 'app-list-unavailable-items',
   standalone: true,
   imports: [
     CommonModule,
@@ -21,20 +20,19 @@ import { CustomersService } from '../../../services/customers.service';
     MatSortModule,
     MatButtonModule
   ],
-  templateUrl: './list-customers.component.html',
-  styleUrl: './list-customers.component.css'
+  templateUrl: './list-unavailable-items.component.html',
+  styleUrl: './list-unavailable-items.component.css'
 })
-export class ListCustomersComponent implements AfterViewInit{
+export class ListUnavailableItemsComponent implements AfterViewInit{
   constructor(
     private _liveAnnouncer: LiveAnnouncer,
-    private customerService: CustomersService,
+    private itemsService: ItemsService,
     private snackbar: MatSnackBar,
-    private router: Router
   ) {}
   
-  customers: Customers[] = [];
-  dataSource = new MatTableDataSource<Customers>([]);
-  columnsToDisplay = ['code', 'name', 'address', 'phone', 'actions'];
+  customers: Items[] = [];
+  dataSource = new MatTableDataSource<Items>([]);
+  columnsToDisplay = ['code', 'name', 'price', 'stock', 'actions'];
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   verticalPosition: MatSnackBarVerticalPosition = 'top';
 
@@ -47,7 +45,7 @@ export class ListCustomersComponent implements AfterViewInit{
   }
 
   loadCustomers(){
-    this.customerService.getActiveCustomers().subscribe(response => {
+    this.itemsService.getUnavailableItems().subscribe(response => {
       this.customers = response;
       this.dataSource.data = this.customers;
     })
@@ -58,6 +56,7 @@ export class ListCustomersComponent implements AfterViewInit{
     this.dataSource.sort = this.sort;
   }
 
+  // sorting
   announceSortChange(sortState: Sort) {
     if (sortState.direction) {
       this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
@@ -66,16 +65,8 @@ export class ListCustomersComponent implements AfterViewInit{
     }
   }
 
-  showDetails(customerId: number) {
-    this.router.navigateByUrl(`/customer/${customerId}/detail`);
-  }
-
-  editCustomer(customerId: number) {
-      this.router.navigateByUrl(`/customer/${customerId}/edit`);
-  }
-
-  deactivateCustomer(id: number): void {
-    this.customerService.deactivateCustomer(id).subscribe({
+  availableItem(id: number): void {
+    this.itemsService.availableItem(id).subscribe({
       next: (response) => {
         this.snackbar.open(response.message, 'Close', {
           duration: 3000,
@@ -83,10 +74,10 @@ export class ListCustomersComponent implements AfterViewInit{
           horizontalPosition: this.horizontalPosition,
           verticalPosition: this.verticalPosition,
         });
-        this.loadCustomers(); // Reload customers after deactivation
+        this.loadCustomers(); // Reload customers after activation
       },
       error: (error) => {
-        console.error('Error deactivating customer', error);
+        console.error('Error set availability item', error);
         this.snackbar.open(error.error.message, 'Close', {
           duration: 3000,
           panelClass: ['bg-danger', 'text-white'],
@@ -95,17 +86,5 @@ export class ListCustomersComponent implements AfterViewInit{
         });
       }
     });
-  }
-
-  deleteCustomer(id: number) {
-      this.customerService.deleteCustomer(id).subscribe(response => {
-        this.snackbar.open('Deleted customer successfully', 'Close', {
-          duration: 3000,
-          panelClass:['bg-success', 'text-white'],
-          horizontalPosition: this.horizontalPosition,
-          verticalPosition: this.verticalPosition,
-        });
-        this.loadCustomers();
-      });
   }
 }

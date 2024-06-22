@@ -1,10 +1,10 @@
 export interface Customers {
-    id: number;
-    name: String;
-    address: String;
-    code: String;
-    phone: String;
-    is_active: Boolean;
-    last_order_date: String;
-    pic: String;
+    id?: number;
+    name: string;
+    address: string;
+    code: string;
+    phone: string;
+    isActive: boolean;
+    lastOrderDate: string;
+    imageUrl?: string;
 }

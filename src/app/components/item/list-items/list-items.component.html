@@ -1,16 +1,20 @@
 <!-- Main Section -->
 <div class="container py-4">
     <div class="row">
-        <div class="col-md-12 d-flex justify-content-left">
+        <div class="col-md-12 d-flex justify-content-between">
             <a href="/item/create" class="btn btn-primary btn-sm">+ New Item</a>
+            <a href="/item/unavailable" class="btn btn-danger btn-sm">Trash</a>
         </div>
-        <div class="col-md-12 py-3">
+        <div class="col-md-12 py-3" *ngIf="dataSource.data.length === 0">
+            <p>Data customers is empty</p>
+        </div>
+        <div class="col-md-12 py-3" *ngIf="dataSource.data.length > 0">
             <mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)">
-                <ng-container matColumnDef="items_code">
-                    <mat-header-cell *matHeaderCellDef> Code </mat-header-cell>
+                <ng-container matColumnDef="code">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by code"> Code </mat-header-cell>
                     <mat-cell *matCellDef="let item"> {{ item.code }} </mat-cell>
                 </ng-container>
-                <ng-container matColumnDef="items_name">
+                <ng-container matColumnDef="name">
                     <mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by name"> Name </mat-header-cell>
                     <mat-cell *matCellDef="let item"> {{ item.name }} </mat-cell>
                 </ng-container>
@@ -19,23 +23,15 @@
                     <mat-cell *matCellDef="let item"> {{ item.price }} </mat-cell>
                 </ng-container>
                 <ng-container matColumnDef="stock">
-                    <mat-header-cell *matHeaderCellDef> Stock </mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef  mat-sort-header sortActionDescription="Sort by stock"> Stock </mat-header-cell>
                     <mat-cell *matCellDef="let item"> {{ item.stock }} </mat-cell>
-                </ng-container>
-                <ng-container matColumnDef="is_available">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by status"> Status </mat-header-cell>
-                    <mat-cell *matCellDef="let item">
-                        <span [class]="'badge ' + (item.isAvailable ? 'bg-success' : 'bg-danger')">
-                          {{ item.isAvailable ? 'Available' : 'Not Available' }}
-                        </span>
-                      </mat-cell>
                 </ng-container>
                 <ng-container matColumnDef="actions">
                     <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
                     <mat-cell *matCellDef="let item">
-                        <button type="button" class="btn btn-primary btn-sm me-2" (click)="showDetails(item)">Detail</button>
-                        <button type="button" class="btn btn-warning btn-sm me-2" (click)="editItem(item)">Edit</button>
-                        <button type="button" class="btn btn-danger btn-sm" (click)="deleteItem(item)">Delete</button>
+                        <button type="button" class="btn btn-primary btn-sm me-2" (click)="showDetails(item.id)">Detail</button>
+                        <button type="button" class="btn btn-warning btn-sm me-2" (click)="editItem(item.id)">Edit</button>
+                        <button type="button" class="btn btn-danger btn-sm" (click)="unavailableItem(item.id)">Delete</button>
                     </mat-cell>
                 </ng-container>
                 <mat-header-row *matHeaderRowDef="columnsToDisplay"></mat-header-row>

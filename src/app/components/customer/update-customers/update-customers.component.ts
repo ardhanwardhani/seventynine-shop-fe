@@ -4,12 +4,23 @@ import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angula
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { CustomersService } from '../../../services/customers.service';
 import { Customers } from '../../../models/customers.model';
-
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-update-customers',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatSlideToggleModule
+  ],
   templateUrl: './update-customers.component.html',
   styleUrl: './update-customers.component.css'
 })
@@ -19,6 +30,8 @@ export class UpdateCustomersComponent implements OnInit{
   verticalPosition: MatSnackBarVerticalPosition = 'top';
   selectedCustomer!: Customers;
   id!: number;
+  selectedImage: File | undefined;
+  imageError: boolean = true;
 
   constructor(
     private router: Router,
@@ -29,13 +42,24 @@ export class UpdateCustomersComponent implements OnInit{
   )
   {
     this.customerForm = this.fb.group({
-      code:['', Validators.required],
       name:['', Validators.required],
       phone:['', Validators.required],
       address:['', Validators.required],
-      pic:[''],
-      is_active:[true]
+      isActive:['', Validators.required]
     });
+  }
+
+  get f() {
+    return this.customerForm.controls;
+  }
+
+  onImageSelected(event: Event): void {
+    const element = event.currentTarget as HTMLInputElement;
+    let fileList: FileList | null = element.files;
+    if (fileList) {
+      this.selectedImage = fileList[0];
+      this.imageError = false;
+    }
   }
 
   ngOnInit(): void {
@@ -55,8 +79,8 @@ export class UpdateCustomersComponent implements OnInit{
   }
 
   onSubmit(){
-    if(this.customerForm.valid){
-      this.customerService.updateCustomer(this.selectedCustomer.id, this.customerForm.value).subscribe( response => {
+    if(this.customerForm.valid && this.selectedImage){
+      this.customerService.updateCustomer(this.selectedCustomer.id, this.customerForm.value, this.selectedImage).subscribe( response => {
           console.log('Customer updated successfully', response);
         })
 
@@ -78,9 +102,5 @@ export class UpdateCustomersComponent implements OnInit{
         verticalPosition: this.verticalPosition,
       });
     }
-  }
-
-  backToHome(){
-    this.router.navigate(['/customer/list']);
   }
 }

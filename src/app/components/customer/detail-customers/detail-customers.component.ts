@@ -2,11 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { CustomersService } from '../../../services/customers.service';
 import { Customers } from '../../../models/customers.model';
 import { ActivatedRoute, Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import {MatButtonModule} from '@angular/material/button';
+import {MatCardModule} from '@angular/material/card';
 
 @Component({
   selector: 'app-detail-customers',
   standalone: true,
-  imports: [],
+  imports: [CommonModule, MatButtonModule, MatCardModule],
   templateUrl: './detail-customers.component.html',
   styleUrl: './detail-customers.component.css'
 })
@@ -27,6 +30,7 @@ export class DetailCustomersComponent implements OnInit{
 
     this.customerService.getCustomer(this.id).subscribe(customer => {
       this.selectedCustomer = customer;
+      console.log(customer);
     });
   }
 
@@ -37,5 +41,4 @@ export class DetailCustomersComponent implements OnInit{
   editCustomer(customer: any) {
     this.router.navigateByUrl(`/customer/${customer.id}/edit`);
   }
-
 }
