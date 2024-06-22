@@ -6,6 +6,7 @@ This is repository for Front-End of Padepokan Shop. This is an POS app where you
 - Angular Material 17
 - Bootstrap 5
 
+## Release Version
 V 1.0
 - CRUD Customer
 - CRUD Item
