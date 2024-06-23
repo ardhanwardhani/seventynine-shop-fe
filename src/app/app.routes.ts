@@ -17,8 +17,11 @@ import { ListItemsComponent } from './components/item/list-items/list-items.comp
 import { UpdateItemsComponent } from './components/item/update-items/update-items.component';
 import { ListUnavailableItemsComponent } from './components/item/list-unavailable-items/list-unavailable-items.component';
 
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+
 export const routes: Routes = [
-    { path: 'dashboard', component: ListOrdersComponent },
+    { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
+    { path: 'dashboard', component: DashboardComponent },
     {
         path: 'order',
         children: [

@@ -1,0 +1,40 @@
+<div class="container p-3">
+    <div class="row d-flex flex-row justify-content-between text-center">
+        <div class="col-md-3 card bg-primary p-3 text-white">
+            <h3>Total Orders</h3>
+            <h3>{{ dashboardData?.countAllOrders }}</h3>
+        </div>
+        <div class="col-md-3 card bg-primary p-3 text-white">
+            <div class="col-md-12">
+                <h3>Total Customers</h3>
+                <h3>{{ dashboardData?.countAllCustomers }}</h3>
+            </div>
+            <div class="col-md-12 d-flex flex-row">
+                <div class="col-md-6 bg-success p-2">
+                    <h6>Active</h6>
+                    <h6>{{ dashboardData?.countActiveCustomers }}</h6>
+                </div>
+                <div class="col-md-6 bg-danger p-2">
+                    <h6>Deactive</h6>
+                    <h6>{{ dashboardData?.countDeactiveCustomers }}</h6>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 card bg-primary p-3 text-white">
+            <div class="col-md-12 bg-primary">
+                <h3>Total Items</h3>
+                <h3>{{ dashboardData?.countAllItems }}</h3>
+            </div>
+            <div class="col-md-12 d-flex flex-row">
+                <div class="col-md-6 bg-success p-2">
+                    <h6>Available</h6>
+                    <h6>{{ dashboardData?.countAvailableItems }}</h6>
+                </div>
+                <div class="col-md-6 bg-danger p-2">
+                    <h6>Unavailable</h6>
+                    <h6>{{ dashboardData?.countUnavailableItems }}</h6>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
